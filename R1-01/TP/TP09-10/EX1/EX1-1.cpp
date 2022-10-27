@@ -45,11 +45,10 @@ int main() {
     double *pst = nullptr;
     pst = new double[size];
 
-    double n;
     for(size_t i=0; i<size; ++i) {
-        std::cin >> n;
-        pst[i] = n;
+        std::cin >> pst[i];
     }
+
     std::cout << moy(pst, size) << std::endl;
     delete[] pst;
 

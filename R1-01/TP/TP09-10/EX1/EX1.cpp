@@ -39,11 +39,8 @@ int main() {
     int *pst = nullptr;
     pst = new int[size];
 
-    int n;
-    for(size_t i=0; i<size; ++i) {
-        std::cin >> n;
-        pst[i] = n;
-    }
+    for(size_t i=0; i<size; ++i)
+        std::cin >> pst[i];
 
     printTab(pst, size);
     delete[] pst;
