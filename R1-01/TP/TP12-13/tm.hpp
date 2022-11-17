@@ -1,9 +1,15 @@
-#pragma once
+#ifndef __TM_HPP__
+#define __TM_HPP__
+
 #include <string>
 #include <queue>
 #include <vector>
+#include <random>
 
 namespace TaskManager {
+
+    //Tools
+    extern std::mt19937 random_engine;
 
     //Structures
     struct Job {
@@ -39,7 +45,7 @@ namespace TaskManager {
     Service createService(const std::string& label);
     //Jobs
     void addJob(Service& service, const Job& job);
-    void addJob(Service& service, const std::string& label);
+    void addJob(Service& service, const std::string& label, size_t job_duration);
     //Workers
     void addWorker(Service& service, const Worker& worker);
     void addWorker(Service& service, const std::string& label);
@@ -50,3 +56,5 @@ namespace TaskManager {
     void run(Service& service);
     
 } //Namspace TaskManager
+
+#endif

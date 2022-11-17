@@ -32,7 +32,7 @@ namespace TaskManager {
     void displayWorker(const Worker& worker) {
         std::cout << worker.label;
         if(worker.jobs.empty()) {
-            std::cout << "idle" << std::endl;
+            std::cout << " idle" << std::endl;
             return;
         }
 
@@ -82,10 +82,10 @@ namespace TaskManager {
 
     //Services
 
-    Job createJob(const std::string& label) {
+    Job createJob(const std::string& label, size_t duration) {
         Job job;
         job.label = label;
-        job.duration = 0;
+        job.duration = duration;
         job.remaining_time = 0;
         return job;
     }
@@ -97,7 +97,7 @@ namespace TaskManager {
         return worker;
     }
 
-    Service createService(const std::string label) {
+    Service createService(const std::string& label) {
         Service service;
         service.label = label;
         service.workers = {};
@@ -112,8 +112,8 @@ namespace TaskManager {
     }
 
     //creates a job with label and adds it to service
-    void addJob(Service& service, const std::string& label) {
-        Job job = createJob(label);
+    void addJob(Service& service, const std::string& label, size_t job_duration) {
+        Job job = createJob(label, job_duration);
         addJob(service, job);
     }
 
@@ -130,7 +130,11 @@ namespace TaskManager {
 
     //Dispactch next job to a worker
     void dispatchNextJob(Service& service, std::size_t worker_id) {
-        service.main_queue.push(service.workers[worker_id].jobs.front());
+        if(worker_id > service.workers.size()-1) throw std::range_error("Ce worker n'existe pas");
+        if(service.main_queue.empty()) throw std::range_error("File vide");
+        
+        service.workers[worker_id].jobs.push(service.main_queue.front());
+        service.main_queue.pop();
     }
 
 
@@ -145,12 +149,20 @@ namespace TaskManager {
     }
 
     //runs the code, duh
-    void run(Service& service) {
+    void run(Service &service){
         dispatchAllJobs(service);
-        while(!idle(service)) {
-            for(Worker& worker : service.workers) {
-                if(!worker.jobs.empty())
+        while(!idle(service)){
+            for(Worker &worker : service.workers){
+                if(!worker.jobs.empty()){
+                    if(worker.jobs.front().remaining_time <= 1){
+                        worker.jobs.pop();
+                    } else {
+                        worker.jobs.front().remaining_time--;
+                    }
+                }
             }
+            service.current_frame++;
+            displayService(service);
         }
     }
 
