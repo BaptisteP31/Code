@@ -49,7 +49,7 @@ int main() {
 
     std::cout << "\x1b[38;2;" << rgb.R << ";" << rgb.B << ";" << rgb.B << "m";
 
-    std::cout << "RGB(" << rgb.R << ", " << rgb.G << ", " << rgb.B << ")" << " / " 
+    std::cout << "▉▉▉▉ RGB(" << rgb.R << ", " << rgb.G << ", " << rgb.B << ")" << " / " 
               << "HEX #" << hex << " / "
               << "HSL(" << hsl.H << "°, " << hsl.S << "%, "  << hsl.L << "%)" << std::endl;
 

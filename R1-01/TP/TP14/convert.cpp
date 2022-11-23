@@ -38,7 +38,6 @@ namespace color {
             float M, m;
             M = std::max({r, g, b});
             m = std::min({r, g, b});
-            std::cout << M << " " << m << std::endl;
 
             float C = M - m;
 
