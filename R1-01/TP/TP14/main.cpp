@@ -1,38 +1,59 @@
+#include <iostream>
 #include <vector>
 
 #include "convert.hpp"
-#include "../../includes/CommonThings/commonthings.hpp"
 
 namespace cl = color;
-namespace ui = commonthings::userinput;
 
-void askColorsRange(unsigned int rl, unsigned int rh, cl::RGB& color) {
-    unsigned int r,b,g;
-
+void askBetween(unsigned int& color, unsigned int r1, unsigned int r2, std::string msg) {    
+    color=r1;
     do {
-        ui::askUser(r, "Rouge [0-255]");
-    } while(r < 0 || r > 255);
-    
-    ui::askUser(g, "Vert> [0-255]");
-    ui::askUser(b, "Bleu> [0-255]");
-
-    color.R = r; color.G = g; color.B = b;
+        if(color < r1 || color > r2)
+            std::cout << "Erreur: Nombre hors de la plage indiquée..." << std::endl;
+        std::cout << msg;
+        std::cin >> color;
+    } while(color < r1 || color > r2);
 }
+
 
 
 
 int main() {
 
+
+    unsigned int col_num;
+    askBetween(col_num, 1, 8, "Entrer le nombre de couleurs à saisir[1-8]> ");
+    
     cl::RGB rgb;
-    askColorsRange(0, 255, rgb);
-    //std::cout << rgb.R << rgb.G << rgb.B << std::endl;
+    std::vector<cl::RGB> rgbs;
+
+    for(size_t i=0; i < col_num; ++i) {
+
+        std::cout << "\nSaisir la couleur " << i+1 << "(R,G,B) :" << std::endl;
+
+        askBetween(rgb.R, 0, 255, "Rouge[0-255]> ");
+        askBetween(rgb.G, 0, 255, "Vert[0-255]> ");
+        askBetween(rgb.B, 0, 255, "Bleu[0-255]> ");
+
+        rgbs.push_back(rgb);
+
+        std::cout << std::endl;
+    }
 
     cl::HSL hsl = cl::convert::RGBtoHSL(rgb);
-    //cl::HEX hex = cl::convert::RGBtoHEX(rgb);
+    cl::HEX hex = cl::convert::RGBtoHEX(rgb);
+
+    std::cout << "== Liste des couleurs ==" << std::endl;
+
+    for(size_t i=0; i < col_num; ++i) {
+
+    std::cout << "\x1b[38;2;" << rgb.R << ";" << rgb.B << ";" << rgb.B << "m";
 
     std::cout << "RGB(" << rgb.R << ", " << rgb.G << ", " << rgb.B << ")" << " / " 
-              /*<< "HEX #" << hex << " / "*/
+              << "HEX #" << hex << " / "
               << "HSL(" << hsl.H << "°, " << hsl.S << "%, "  << hsl.L << "%)" << std::endl;
+
+    }
 
     return 0;
 }
