@@ -31,9 +31,13 @@ int main() {
 
         std::cout << "\nSaisir la couleur " << i+1 << "(R,G,B) :" << std::endl;
 
-        askBetween(rgb.R, 0, 255, "Rouge[0-255]> ");
-        askBetween(rgb.G, 0, 255, "Vert[0-255]> ");
-        askBetween(rgb.B, 0, 255, "Bleu[0-255]> ");
+        unsigned int r, g, b;
+
+        askBetween(r, 0, 255, "Rouge[0-255]> ");
+        askBetween(g, 0, 255, "Vert[0-255]> ");
+        askBetween(b, 0, 255, "Bleu[0-255]> ");
+
+        rgb.R = r%256; rgb.G = g%256; rgb.B = b%256;
 
         rgbs.push_back(rgb);
 
@@ -49,10 +53,10 @@ int main() {
 
         std::cout << "Couleur " << i+1 << ":" << std::endl;
 
-        std::cout << "\x1b[38;2;" << rgb.R << ";" << rgb.B << ";" << rgb.B << "m";
+        std::cout << "\x1b[38;2;" << (int)rgb.R << ";" << (int)rgb.B << ";" << (int)rgb.B << "m";
 
         std::cout << "▉▉▉▉" << "\x1B[38;2;200;200;200m"
-              << " RGB(" << rgbs.back().R << ", " << rgbs.back().G << ", " << rgbs.back().G << ")" << " / " 
+              << " RGB(" << (int)rgbs.back().R << ", " << (int)rgbs.back().G << ", " << (int)rgbs.back().G << ")" << " / " 
               << "HEX #" << hex << " / "
               << "HSL(" << hsl.H << "°, " << hsl.S << "%, "  << hsl.L << "%)" << std::endl;
 
