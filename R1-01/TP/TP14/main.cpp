@@ -47,12 +47,16 @@ int main() {
 
     for(size_t i=0; i < col_num; ++i) {
 
+    std::cout << "Couleur " << i+1 << ":" << std::endl;
+
     std::cout << "\x1b[38;2;" << rgb.R << ";" << rgb.B << ";" << rgb.B << "m";
 
-    std::cout << "▉▉▉▉ RGB(" << rgb.R << ", " << rgb.G << ", " << rgb.B << ")" << " / " 
+    std::cout << "▉▉▉▉" << "\x1B[38;2;200;200;200m"
+              << " RGB(" << rgb.R << ", " << rgb.G << ", " << rgb.B << ")" << " / " 
               << "HEX #" << hex << " / "
               << "HSL(" << hsl.H << "°, " << hsl.S << "%, "  << hsl.L << "%)" << std::endl;
 
+    std::cout << std::endl; 
     }
 
     return 0;
