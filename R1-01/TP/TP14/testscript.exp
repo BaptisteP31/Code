@@ -1,0 +1,15 @@
+#!/bin/expect
+
+spawn ./main.app
+
+#Nombre de couleurs
+expect "Entrer le nombre de couleurs à saisir[1-8]>"
+send -- "1\r"
+
+#Couleur 1
+expect "Rouge[0-255]>"
+send -- "255\r"
+expect "Vert[0-255]>"
+send -- "255\r"
+expect "Bleu[0-255]>"
+send -- "255\r"
