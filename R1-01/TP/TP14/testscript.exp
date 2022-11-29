@@ -1,15 +1,20 @@
 #!/bin/expect
 
+set timeout -1
 spawn ./main.app
 
 #Nombre de couleurs
-expect "Entrer le nombre de couleurs à saisir[1-8]>"
-send -- "1\r"
+expect {Entrer le nombre de couleurs à saisir\[1-8\]>}
+send "1\r"
 
 #Couleur 1
-expect "Rouge[0-255]>"
-send -- "255\r"
-expect "Vert[0-255]>"
-send -- "255\r"
-expect "Bleu[0-255]>"
-send -- "255\r"
+expect {Rouge\[0-255\]>}
+send "98\r"
+expect {Vert\[0-255\]>}
+send "0\r"
+expect {Bleu\[0-255\]>}
+send "270\r"
+expect "Erreur: Nombre hors de la plage indiquée..."
+send "238\r"
+
+interact

@@ -52,7 +52,7 @@ int main() {
         std::cout << "\x1b[38;2;" << rgb.R << ";" << rgb.B << ";" << rgb.B << "m";
 
         std::cout << "▉▉▉▉" << "\x1B[38;2;200;200;200m"
-              << " RGB(" << rgbs.back().R << ", " << rgbs.back().G << ", " << rgbs.back().G << ")" << " / " 
+              << " RGB(" << rgbs.back().R << ", " << rgbs.back().G << ", " << rgbs.back().B << ")" << " / " 
               << "HEX #" << hex << " / "
               << "HSL(" << hsl.H << "°, " << hsl.S << "%, "  << hsl.L << "%)" << std::endl;
 
