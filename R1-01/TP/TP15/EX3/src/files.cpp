@@ -6,10 +6,27 @@
 
 namespace file {
 
-    std::vector<std::string> split(const std::string& str, char) {
-
+    std::vector<std::string> split(const std::string& str, char sep) {
+        std::string word;
+        std::vector<std::string> toRet;
+        size_t i = 0;
+        for(char currentChar: str) {
+            if( currentChar == sep) {
+                toRet.push_back(word);
+                word = "";
+            } else if(i == str.length()-1) {
+                word += currentChar;
+                toRet.push_back(word);
+                return toRet;
+            } else {
+                word += currentChar;
+            }
+            i += 1;
+        }
+        return toRet;
     }
-        std::vector<FileAttribute> readFile(const std::string &fn){
+
+    std::vector<FileAttribute> readFile(const std::string &fn){
         std::ifstream file(fn); 
         std::string str2;
         std::vector<FileAttribute> ret;
@@ -32,9 +49,10 @@ namespace file {
             return std::make_tuple(fa1.date.year, fa1.date.month, fa1.date.date, fa1.path) < std::make_tuple(fa2.date.year, fa2.date.month, fa2.date.date, fa2.path);
         });
     }
-    void sortPerSha(std::vector<FileAttribute>& v) {
-        std::stable_sort(v.begin(), v.end(), [](FileAttribute fa1, FileAttribute fa2){
-            return fa1.shasum < fa2.shasum;
-        });
+    void sortPerSha(std::vector<file::FileAttribute> &v) {
+    std::stable_sort(v.begin(), v.end(), [](FileAttribute fa1, FileAttribute fa2){
+        return fa1.shasum < fa2.shasum;
+    });
     }
+
 }
