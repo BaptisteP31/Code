@@ -45,52 +45,55 @@ namespace rpn {
 
     // Checks for valid operator
     bool isValidOperator(std::string& input_expression) {
-        return (input_expression == "*") || (input_expression == "+") || (input_expression == "-");
+        return (input_expression == "*") || (input_expression == "+") || (input_expression == "-") || (input_expression == "/");
     }
+
+    int prec(const std::string& str) {
+        if (str == "/" || str == "*")
+            return 2;
+        else if (str == "+" || str == "-")
+            return 1;
+        return 0;
+    }
+
 
     // ? TO TEST Converts infox to postfix
     Expression infixToPostfix(Expression input_expression) {
-        //std::vector<std::string> ret = {"2", "3", "+"};
-        //return ret;
+        std::stack<std::string> operators;
         Expression output_expression;
 
-        std::stack<std::string> operators;
-        std::stack<std::string> numbers;
-
-        std::map<std::string, int> priority
-        {
-            {"+", 0}, {"-", 1}, {"*", 2}, {"/", 2}
-        };
-
         for(std::string i : input_expression) {
-            
-            if(i == "+" && priority[operators.top()] <= 0) {
-                operators.push(i);
-            } else if(i == "+") {
-                output_expression.push_back(numbers.top());
-                numbers.pop();
-                output_expression.push_back(numbers.top());
-                numbers.pop();
+            // If the current i is an operand -> output
+            if (isNumeric(i))
                 output_expression.push_back(i);
-            }
-            else if (i == "i" && priority[operators.top()] <= 1){
+
+            // If the current i is a ( -> operators stack
+            else if (i == "(")
                 operators.push(i);
-            } else if(i == "+") {
-                output_expression.push_back(numbers.top());
-                numbers.pop();
-                output_expression.push_back(numbers.top());
-                numbers.pop();
-                output_expression.push_back(i);
+
+            // If the current i is a ) -> append and pop until (
+            else if (i == ")") {
+                while (operators.top() != "(") {
+                    output_expression.push_back(operators.top());
+                    operators.pop();
+                }
+                operators.pop();
             }
-            else if(i == "*") {
+
+            // If i is an operator
+            else {
+                while (!operators.empty() && prec(i) <= prec(operators.top())) {
+                    output_expression.push_back(operators.top());
+                    operators.pop();
+                }
                 operators.push(i);
             }
-            else if(i == "/") {
-                operators.push(i);
-            }
-            else if(isNumeric(i)){
-                numbers.push(i);
-            }
+        }
+
+        // Pop the remaining elements in operators stack
+        while (!operators.empty()) {
+            output_expression.push_back(operators.top());
+            operators.pop();
         }
 
         return output_expression;
