@@ -48,6 +48,7 @@ namespace rpn {
         return (input_expression == "*") || (input_expression == "+") || (input_expression == "-") || (input_expression == "/");
     }
 
+    // Precedent
     int prec(const std::string& str) {
         if (str == "/" || str == "*")
             return 2;
@@ -57,7 +58,7 @@ namespace rpn {
     }
 
 
-    // ? TO TEST Converts infox to postfix
+    // * Converts infox to postfix
     Expression infixToPostfix(Expression input_expression) {
         std::stack<std::string> operators;
         Expression output_expression;
