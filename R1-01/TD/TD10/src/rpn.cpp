@@ -100,14 +100,45 @@ namespace rpn {
         return output_expression;
     }
 
+    std::string operate(const double val1, const double val2, const std::string op) {
+        if (op == "+")
+            return std::to_string(val2 + val1);
+        else if (op == "-")
+            return std::to_string(val2 - val1);
+        else if (op == "/")
+            return std::to_string(val2 / val1);
+        else if (op == "*")
+            return std::to_string(val2 * val1);
+        return "";
+    }
+
     double eval(Expression expression) {
-    // TODO Evluates the expression -> return result
-        return 5.0;
+    // * Evluates the expression -> return result
+        std::stack<std::string> operands;
+
+        for(std::string i : expression) {
+            // If the current i is an operand -> operand stack
+            if (isNumeric(i)) {
+                operands.push(i);
+            } else {
+                // If the current i is an operator -> evaluate it
+                double val1 = stod(operands.top());
+                operands.pop();
+                double val2 = stod(operands.top());
+                operands.pop();
+                operands.push(operate(val1, val2, i));
+            }
+        }
+        double evalResult = stod(operands.top());
+        return evalResult;
     }
 
     std::string toString(Expression expression) {
-    // TODO Converts expression to string
-        return "2 3 +";
+    // * Converts expression to string
+        std::string result = "";
+        for(std::string i : expression)
+            result += i;
+        return result;
     }
     
     bool isWellParenthesized(Expression input_expression) {
