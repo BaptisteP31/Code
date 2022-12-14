@@ -143,6 +143,15 @@ namespace rpn {
     
     bool isWellParenthesized(Expression input_expression) {
     // TODO Checks if the expression is well parenthesized
+        size_t count = 0;
+        for(std::string i : input_expression)
+            if (i == "(") {
+                count += 1;
+                if (count < 1)
+                    return false;
+            }
+            else if (i == ")")
+                count -= 1;
         return true;
     }
 } // ! Namespace rpn

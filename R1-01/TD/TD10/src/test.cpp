@@ -8,8 +8,10 @@ int main() {
     
     for (auto i : expPostFix)
         std::cout << i;
+    
     std::cout << std::endl;
     std::cout << rpn::toString(expPostFix) << std::endl;
+    rpn::isWellParenthesized(exp);
     std::cout << rpn::eval(expPostFix) << std::endl;
     
     return 0;
